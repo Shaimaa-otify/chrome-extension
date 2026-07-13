@@ -3,12 +3,22 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <input type="text" id="input-el">
+        <header>
+            <h1>DevMark</h1>
+        </header>
+        <label for="input-el">Enter Resource:</label>
+        <input type="text" id="input-el" placeholder="Title, URL, or Tag">
         <button id="input-btn">SAVE INPUT</button>
         <button id="tab-btn">SAVE TAB</button>
+        <label for="site-search">Search the site:</label>
+        <input type="search" id="site-search" name="q" placeholder="Search...">
+        <button>Search</button>
         <button id="delete-btn">DELETE ALL</button>
+        <button id="show-resources-btn">Show Resources</button>
+        <div id="tag-chips"></div>
         <ul id="ul-el">
         </ul>
         <script src="index.js"></script>
     </body>
 </html>
+
