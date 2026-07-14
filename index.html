@@ -5,19 +5,48 @@
     <body>
         <header>
             <h1>DevMark</h1>
+            <form novalidate class="search-form">            
+                <input type="search" id="site-search" name="q" placeholder="Search...">          
+            </form>
         </header>
-        <label for="input-el">Enter Resource:</label>
-        <input type="text" id="input-el" placeholder="Title, URL, or Tag">
-        <button id="input-btn">SAVE INPUT</button>
-        <button id="tab-btn">SAVE TAB</button>
-        <label for="site-search">Search the site:</label>
-        <input type="search" id="site-search" name="q" placeholder="Search...">
-        <button>Search</button>
-        <button id="delete-btn">DELETE ALL</button>
-        <button id="show-resources-btn">Show Resources</button>
-        <div id="tag-chips"></div>
-        <ul id="ul-el">
-        </ul>
+        <hr>
+        
+        <form novalidate class="add-form">
+            <h2>Add Resource</h2>
+            <label for="title-el">Title:</label>
+            <input type="text" id="title-el" placeholder="Title">
+
+            <label for="input-el">Tags:</label>
+            <input type="text" id="input-el" placeholder="Javascript, html, css">
+
+            
+
+            <label for="url-el">Url:</label>
+            <input type="text" id="url-el" >
+
+            <p>Read:</p>
+            <input type="radio" id="read-yes" name="read" value="yes">
+            <label for="read-yes">Yes</label>
+            
+
+            <input type="radio" id="reade-no" name="read" value="no">
+            <label for="read-no">No</label><br>
+                       
+            <button id="tab-btn">SAVE TAB</button>
+        </form>
+        <hr>
+            
+            
+            
+        
+        <div>
+            <button id="show-resources-btn">Show Resources</button>
+            <div class="resouces-container">             
+                <ul id="ul-el"></ul>
+            </div>
+
+            <button id="delete-btn">DELETE ALL</button>
+        </div>
         <script src="index.js"></script>
     </body>
 </html>

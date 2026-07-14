@@ -49,15 +49,19 @@ tabBtn.addEventListener("click", function(){
         saveResource(resource)
     })
 })
-
+ 
 function render(resources) {
     let listItems = ""    
     resources.forEach(resource => {
         listItems += `
-            <li>
+            <li class="resource-item">            
                 <a target='_blank' href='${resource.url}'>
                     ${resource.title}
                 </a>
+                <p>Tags: ${resource.tags.join(", ")}</p>                
+                <p>Read: ${resource.read ? "Yes" : "No"}</p>
+                <i class="delete-icon" data-id="${resource.id}">Delete</i>
+                <p>Saved At: ${new Date(resource.savedAt).toLocaleString()}</p>
             </li>
         `
     })  
@@ -66,7 +70,7 @@ function render(resources) {
 
 showResourcesBtn.addEventListener("click", async function() {
     const resources = await loadResources()
-    resources ? render(resources) : console.log
+    resources ? render(resources) : console.log("No resources found")
 })
 
 /* 

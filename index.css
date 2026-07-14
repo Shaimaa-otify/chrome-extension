@@ -6,11 +6,14 @@ body {
 }
 
 input {
-    width: 100%;
     padding: 10px;
     box-sizing: border-box;
     border: 1px solid #5f9341;
+    border-radius: 8px;
     margin-bottom: 4px;
+}
+
+input[type="radio"] {
 }
 
 button {
@@ -38,6 +41,14 @@ li {
 
 a {
     color: #5f9341;
+}
+
+.resource-item{
+    background-color: #f5f4f4;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+
 }
 
 
