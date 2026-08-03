@@ -1,8 +1,23 @@
 body {
     margin: 0;
-    padding: 10px;
+    padding: 1em;
     font-family: Arial, Helvetica, sans-serif;
     min-width: 400px;
+    max-width: 600px;
+}
+
+input[type="text"],
+input[type="search"],
+.save-btn {
+    width: 100%;
+}
+
+label {
+   font-size: 1rem;
+}
+
+.search-bar {
+    margin: 0;
 }
 
 input {
@@ -10,10 +25,18 @@ input {
     box-sizing: border-box;
     border: 1px solid #5f9341;
     border-radius: 8px;
-    margin-bottom: 4px;
+    margin-bottom: 1em;
+    margin-top: .4em;
+    
+}
+.radio-input-containers{
+    display: flex;
+    gap: 1em;
 }
 
+
 input[type="radio"] {
+    margin: 0 .4em 0 0; 
 }
 
 button {
@@ -21,10 +44,27 @@ button {
     color: white;
     padding: 10px 20px;
     border: 1px solid #5f9341;
+    border-radius: 8px;
     font-weight: bold;
+    margin-top: .7em;
+
+    
 }
 
-#delete-btn {
+.radio-container{
+    display: flex;
+}
+
+.btns-container {
+    display: flex;
+    gap: 20px;
+}
+
+.btns-container > * {
+    flex: 1;
+}
+
+.clear-btn {
     background: white;
     color: #5f9341;
 }
@@ -47,7 +87,7 @@ a {
     background-color: #f5f4f4;
     border-radius: 8px;
     padding: 1rem;
-    display: flex;
+    display: grid;
 
 }
 

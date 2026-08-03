@@ -3,28 +3,9 @@
 A sequential checklist for building the DevMark Chrome extension. Complete each task fully before moving to the next.
 
 ---
+show resources as a grid with spaces in between 
+add search icon to search bar
 
-## Task 1 — Foundation: Manifest & HTML Structure
-
-**Goal:** Update the extension metadata and lay out the full popup HTML skeleton.
-
-**What to do:**
-- Update `manifest.json`: change `name`, add a `description`, add `"storage"` to `permissions`
-- Rewrite `index.html` with:
-  - A header with the extension name
-  - A "Save Tab" button
-  - A manual entry form: title input, URL input, tag input, submit button
-  - A search bar input
-  - An empty `<div>` for tag filter chips
-  - An empty `<ul>` or `<div>` for the resource list
-
-**How to test:**
-- Load the unpacked extension in `chrome://extensions`
-- Click the extension icon — the popup should open without errors
-- All form elements should be visible (unstyled is fine)
-- No console errors in the popup's DevTools (`right-click popup → Inspect`)
-
----
 
 ## Task 2 — Data Model & Storage
 

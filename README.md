@@ -114,6 +114,8 @@ chrome extension/
 - [ ] Drag-to-reorder list
 - [ ] Keyboard shortcuts for saving the current tab
 - [ ] Notes field per resource
+- [ ] Check if already saved
+- [ ] group pages in the same website
 
 ---
 

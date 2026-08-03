@@ -6,7 +6,7 @@
         <header>
             <h1>DevMark</h1>
             <form novalidate class="search-form">            
-                <input type="search" id="site-search" name="q" placeholder="Search...">          
+                <input type="search" id="site-search" name="q" placeholder="Search..." class="search-bar">          
             </form>
         </header>
         <hr>
@@ -14,7 +14,7 @@
         <form novalidate class="add-form">
             <h2>Add Resource</h2>
             <label for="title-el">Title:</label>
-            <input type="text" id="title-el" placeholder="Title">
+            <input type="text" id="title-el" placeholder="Creating games with JS">
 
             <label for="input-el">Tags:</label>
             <input type="text" id="input-el" placeholder="Javascript, html, css">
@@ -24,15 +24,21 @@
             <label for="url-el">Url:</label>
             <input type="text" id="url-el" >
 
-            <p>Read:</p>
-            <input type="radio" id="read-yes" name="read" value="yes">
-            <label for="read-yes">Yes</label>
-            
+            <div class="radio-input-containers">
+                <legend>Read:</legend>
 
-            <input type="radio" id="reade-no" name="read" value="no">
-            <label for="read-no">No</label><br>
+                <div class="radio-container">
+                    <input type="radio" id="read-yes" name="read" value="yes">
+                    <label for="read-yes">Yes</label>
+                </div>           
+            
+                <div class="radio-container">
+                    <input type="radio" id="reade-no" name="read" value="no" checked>
+                    <label for="read-no">No</label>
+                </div>
+            </div>
                        
-            <button id="tab-btn">SAVE TAB</button>
+            <button id="tab-btn" class="save-btn">SAVE TAB</button>
         </form>
         <hr>
             
@@ -40,12 +46,16 @@
             
         
         <div>
-            <button id="show-resources-btn">Show Resources</button>
+            <div class="btns-container">
+                <button id="show-resources-btn" class="solid-btn">SHOW ALL</button>
+                <button id="delete-btn" class="clear-btn">DELETE ALL</button>
+            </div>
+
             <div class="resouces-container">             
                 <ul id="ul-el"></ul>
             </div>
 
-            <button id="delete-btn">DELETE ALL</button>
+            
         </div>
         <script src="index.js"></script>
     </body>
