@@ -7,61 +7,8 @@ show resources as a grid with spaces in between
 add search icon to search bar
 
 
-## Task 2 — Data Model & Storage
 
-**Goal:** Define the shape of a saved resource and set up `chrome.storage.sync` as the data layer.
 
-**What to do:**
-- Define a resource object shape: `{ id, title, url, tags, read, savedAt }`
-- Write `saveResource(resource)` — loads existing array, appends new item, saves back
-- Write `loadResources(callback)` — retrieves the array from storage and passes it to a callback
-- Write `deleteResource(id)` — filters out the item with the matching id and saves
-
-**How to test:**
-- In `index.js`, temporarily call `saveResource({ id: '1', title: 'Test', url: 'https://test.com', tags: ['JS'], read: false, savedAt: Date.now() })`
-- Open the popup, then open its DevTools console and run:
-  ```js
-  chrome.storage.sync.get('resources', (data) => console.log(data))
-  ```
-- You should see the test resource in the output
-- Call `deleteResource('1')` and run the same check — the array should be empty
-
----
-
-## Task 3 — Save & Render
-
-**Goal:** Wire up both save methods and display saved resources as cards.
-
-**What to do:**
-- **Save Tab button**: use `chrome.tabs.query` to get the active tab's `url` and `title`, then call `saveResource()`
-- **Manual save form**: on submit, read the three input values, build a resource object, call `saveResource()`, clear the form
-- Write `renderList(resources)` to build a card for each resource showing: title, URL (as a clickable link), and tags as inline chips
-- Call `loadResources()` on popup open and pass results to `renderList()`
-
-**How to test:**
-- Navigate to any webpage (e.g. `https://developer.mozilla.org`) and open the popup
-- Click **Save Tab** — a card for that page should appear in the list
-- Fill in the manual form and submit — a second card should appear
-- Close and reopen the popup — both cards should still be there (persisted in storage)
-
----
-
-## Task 4 — Delete Individual Resources
-
-**Goal:** Let the user remove a single resource without affecting others.
-
-**What to do:**
-- Add a delete button to each card rendered by `renderList()`
-- Attach a click listener that calls `deleteResource(id)` then re-renders the list
-- Remove any leftover "Delete All" button and its event listener
-
-**How to test:**
-- Save two or three resources
-- Click the delete button on the middle card — only that card should disappear
-- The remaining cards should still appear and persist after reopening the popup
-- Confirm there is no "Delete All" button visible
-
----
 
 ## Task 5 — Tag Filtering
 

@@ -47,7 +47,7 @@ button {
     border-radius: 8px;
     font-weight: bold;
     margin-top: .7em;
-
+    cursor: pointer;
     
 }
 
@@ -83,12 +83,30 @@ a {
     color: #5f9341;
 }
 
+
 .resource-item{
     background-color: #f5f4f4;
     border-radius: 8px;
-    padding: 1rem;
     display: grid;
+    grid-template-columns: repeat(5, minmax(20px, 1fr));
+    justify-items: center;
+    align-items: center;
+    gap: 1em;
+    rule: 2px solid white; 
 
 }
 
+.resource-item > *{
+    padding: 1rem;
+
+}
+
+button.delete-btn {
+    border-radius: 50%;
+    border: 1px solid #808080;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+}
 

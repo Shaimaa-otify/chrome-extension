@@ -7,12 +7,11 @@ let myResources = {
     savedAt: Date.now()
 }
 const inputEl = document.getElementById("input-el")
-const inputBtn = document.getElementById("input-btn")
 const ulEl = document.getElementById("ul-el")
-const deleteBtn = document.getElementById("delete-btn")
 const resourcesFromLocalStorage = JSON.parse( localStorage.getItem("myResources") )
-const tabBtn = document.getElementById("tab-btn")
 const showResourcesBtn = document.getElementById("show-resources-btn")
+const saveBtn = document.getElementById("save-btn")
+const deleteAllBtn = document.getElementById("delete-all-btn")
 
 
 // retrieves the array from storage
@@ -36,7 +35,7 @@ async function deleteResource(id) {
 }
 
 
-tabBtn.addEventListener("click", function(){    
+saveBtn.addEventListener("click", function(){    
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
         const resource = {
             id: Date.now().toString(),
@@ -51,6 +50,14 @@ tabBtn.addEventListener("click", function(){
 })
  
 function render(resources) {
+    let listHeader = `
+            <li class="resource-item">            
+                <a >Linked Title</a>
+                <p>Tags</p>                
+                <p>Read</p>                
+                <p>Saved At</p>
+                <p>Delete</p>
+            </li>`
     let listItems = ""    
     resources.forEach(resource => {
         listItems += `
@@ -58,14 +65,14 @@ function render(resources) {
                 <a target='_blank' href='${resource.url}'>
                     ${resource.title}
                 </a>
-                <p>Tags: ${resource.tags.join(", ")}</p>                
-                <p>Read: ${resource.read ? "Yes" : "No"}</p>
-                <i class="delete-icon" data-id="${resource.id}">Delete</i>
-                <p>Saved At: ${new Date(resource.savedAt).toLocaleString()}</p>
+                <p>${resource.tags.join(", ")}</p>                
+                <p>${resource.read ? "Yes" : "No"}</p>                
+                <p>${new Date(resource.savedAt).toLocaleString()}</p>
+                <button class="delete-btn" data-id="${resource.id}">-</button>
             </li>
         `
     })  
-    ulEl.innerHTML = listItems
+    ulEl.innerHTML = listHeader + listItems
 }
 
 showResourcesBtn.addEventListener("click", async function() {
@@ -73,25 +80,6 @@ showResourcesBtn.addEventListener("click", async function() {
     resources ? render(resources) : console.log("No resources found")
 })
 
-/* 
-## Task 3 — Save & Render
-
-**Goal:** Wire up both save methods and display saved resources as cards.
-
-**What to do:**
-- **Save Tab button**: use `chrome.tabs.query` to get the active tab's `url` and `title`, then call `saveResource()`
-- **Manual save form**: on submit, read the three input values, build a resource object, call `saveResource()`, clear the form
-- Write `renderList(resources)` to build a card for each resource showing: title, URL (as a clickable link), and tags as inline chips
-- Call `loadResources()` on popup open and pass results to `renderList()`
-
-**How to test:**
-- Navigate to any webpage (e.g. `https://developer.mozilla.org`) and open the popup
-- Click **Save Tab** — a card for that page should appear in the list
-- Fill in the manual form and submit — a second card should appear
-- Close and reopen the popup — both cards should still be there (persisted in storage)
-
----
-*/
 
 
 
@@ -112,18 +100,20 @@ if (resourcesFromLocalStorage) {
 
 
 
-deleteBtn.addEventListener("dblclick", function() {
+deleteAllBtn.addEventListener("dblclick", function() {
     localStorage.clear()
     myResources = []
     render(myResources)
 })
 
-inputBtn.addEventListener("click", function() {
-    myResources.push(inputEl.value)
-    inputEl.value = ""
-    localStorage.setItem("myResources", JSON.stringify(myResources) )
-    render(myResources)
+ulEl.addEventListener("click", async (event) => {
+    if (event.target.classList.contains("delete-btn")) {
+        await deleteResource(event.target.dataset.id)
+        const resources = await loadResources()
+        render(resources)
+    }
 })
+
 
 
 
