@@ -6,12 +6,13 @@ let myResources = {
     read: false,
     savedAt: Date.now()
 }
-const inputEl = document.getElementById("input-el")
+const tagEl = document.getElementById("tag-input-el")
+const chipsEl = document.getElementById("chips-el")
 const ulEl = document.getElementById("ul-el")
-const resourcesFromLocalStorage = JSON.parse( localStorage.getItem("myResources") )
 const showResourcesBtn = document.getElementById("show-resources-btn")
 const saveBtn = document.getElementById("save-btn")
 const deleteAllBtn = document.getElementById("delete-all-btn")
+let isShowing = false
 
 
 // retrieves the array from storage
@@ -41,10 +42,11 @@ saveBtn.addEventListener("click", function(){
             id: Date.now().toString(),
             title: tabs[0].title,
             url: tabs[0].url,
-            tags: [],
-            read: false,
+            tags: tagEl.value.split(",").map(t => t.trim()).filter(Boolean),
+            read: document.querySelector('input[name="read"]:checked').value === "yes",
             savedAt: Date.now()
         }
+        console.log("Resource saved:", resource)
         saveResource(resource)
     })
 })
@@ -76,34 +78,37 @@ function render(resources) {
 }
 
 showResourcesBtn.addEventListener("click", async function() {
+    if (isShowing) {
+        ulEl.innerHTML = ""
+        showResourcesBtn.textContent = "SHOW ALL"
+        isShowing = false
+        return
+    }
     const resources = await loadResources()
-    resources ? render(resources) : console.log("No resources found")
+    if (resources && resources.length > 0) {
+        render(resources)
+        showResourcesBtn.textContent = "HIDE ALL"
+        isShowing = true
+    } else {
+        console.log("No resources found")
+    }
 })
 
 
 
+loadResources().then(resources => {
+    if (resources.length) {
+        render(resources)
+        renderTagFilters(resources)
+        isShowing = true
+        showResourcesBtn.textContent = "HIDE ALL"
+    }
+})
 
 
-
-
-
-
-
-
-
-if (resourcesFromLocalStorage) {
-    myResources = resourcesFromLocalStorage
-    render(myResources)
-}
-
-
-
-
-
-deleteAllBtn.addEventListener("dblclick", function() {
-    localStorage.clear()
-    myResources = []
-    render(myResources)
+deleteAllBtn.addEventListener("dblclick", async function() {
+    await chrome.storage.sync.set({ "myResources": JSON.stringify([]) })
+    render([])
 })
 
 ulEl.addEventListener("click", async (event) => {
@@ -115,6 +120,38 @@ ulEl.addEventListener("click", async (event) => {
 })
 
 
+function renderTagFilters(resources) {
+    const uniqueTags = new Set()
+    resources.forEach(resource => {
+        resource.tags.forEach(tag => uniqueTags.add(tag))
+    })
 
+    const tagChips = Array.from(uniqueTags).map(tag => {
+        return `<button class="tag-chip" data-tag="${tag}">${tag}</button>`
+    }).join("")
 
+    chipsEl.innerHTML = tagChips
+
+    let activeTag = null
+
+    chipsEl.addEventListener("click", async (event) => {
+        if (event.target.classList.contains("tag-chip")) {
+            const clickedTag = event.target.dataset.tag
+            if (activeTag === clickedTag) {
+                activeTag = null
+            } else {
+                activeTag = clickedTag
+            }
+
+            const resources = await loadResources()
+            const filteredResources = activeTag ? resources.filter(resource => resource.tags.includes(activeTag)) : resources
+            render(filteredResources)
+            isShowing = true
+            showResourcesBtn.textContent = "HIDE ALL"
+            document.querySelectorAll(".tag-chip").forEach(chip => {
+                chip.classList.toggle("active", chip.dataset.tag === activeTag)
+            })
+        }
+    })
+}
 

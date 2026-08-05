@@ -5,30 +5,11 @@ A sequential checklist for building the DevMark Chrome extension. Complete each 
 ---
 show resources as a grid with spaces in between 
 add search icon to search bar
+check before adding it already exists
 
 
 
 
-
-## Task 5 — Tag Filtering
-
-**Goal:** Allow the user to filter the list by clicking a tag chip.
-
-**What to do:**
-- Write `renderTagFilters(resources)` — collects all unique tags across saved resources and renders each as a clickable chip
-- Track a `activeTag` variable (default `null`)
-- Clicking a chip sets `activeTag` to that tag and re-renders only matching resources
-- Clicking the active chip again clears the filter (shows all)
-- Call `renderTagFilters()` whenever the list is re-rendered
-
-**How to test:**
-- Save three resources: one tagged `CSS`, one tagged `JavaScript`, one tagged `CSS`
-- Three tag chips should appear: `CSS` and `JavaScript`
-- Click `CSS` — only the two CSS resources should show; the chip should look selected
-- Click `CSS` again — all three should show again
-- Delete one of the CSS resources — the tag chips should update automatically
-
----
 
 ## Task 6 — Live Search
 
