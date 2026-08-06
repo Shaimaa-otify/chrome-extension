@@ -88,7 +88,7 @@ a {
     background-color: #f5f4f4;
     border-radius: 8px;
     display: grid;
-    grid-template-columns: repeat(5, minmax(20px, 1fr));
+    grid-template-columns: 2fr repeat(4, minmax(20px, 1fr));
     justify-items: center;
     align-items: center;
     gap: 1em;
@@ -96,9 +96,16 @@ a {
 
 }
 
-.resource-item > *{
-    padding: 1rem;
+.resource-item a {
+    text-align: center;
+    word-break: break-word;
+}
 
+.empty-state {
+    text-align: center;
+    color: #888;
+    padding: 2rem;
+    list-style: none;
 }
 
 button.delete-btn {

@@ -26,14 +26,18 @@ A Chrome extension to save, tag, and organize the websites that help you learn c
 
 ## Features
 
-- **Save current tab** — captures the page URL and title automatically with one click
-- **Manual entry** — add any URL with a custom title and tags
-- **Tagging** — label resources by topic (e.g. `CSS`, `React`, `Algorithms`, `Reference`)
-- **Filter by tag** — click a tag chip to show only matching resources
+- **Save current tab** — captures the active tab's URL and title automatically with one click
+- **Tagging** — label resources by topic (e.g. `CSS`, `React`, `Algorithms`) before saving
+- **Read status** — mark a resource as read or unread before saving via radio buttons
+- **Filter by tag** — click a tag chip to show only matching resources; click again to clear
 - **Live search** — filter the list by title or URL in real time
-- **Read / unread toggle** — mark resources as read to track your progress
-- **Delete individual resources** — remove a single entry without clearing everything
-- **Persistent storage** — data saved in `chrome.storage.sync` and follows you across devices
+- **Read / unread toggle** — toggle read status directly on any saved resource
+- **Delete individual resources** — remove a single entry with the delete button
+- **Delete all** — double-click the Delete All button to wipe all saved resources
+- **Show / Hide list** — toggle the resource list with a single button; label updates to reflect state
+- **Duplicate prevention** — saving a URL that already exists shows an alert instead of duplicating
+- **Empty state** — a message is shown when no resources are saved or no results match
+- **Persistent storage** — data saved in `chrome.storage.sync` and syncs across devices
 
 ---
 
@@ -72,13 +76,14 @@ The DevMark icon will appear in your Chrome toolbar.
 
 ## Usage
 
-1. **Save a tab** — navigate to any coding resource and click **Save Tab** in the popup
-2. **Add manually** — type a URL and title into the input fields and click **Save**
-3. **Tag it** — select or type a tag (e.g. `JavaScript`, `CSS`) before saving
-4. **Filter** — click any tag chip in the list to show only resources with that tag
-5. **Search** — type in the search box to filter by title or URL
-6. **Mark as read** — click the read indicator on a card to toggle its read status
-7. **Delete** — click the delete icon on any card to remove that single resource
+1. **Save a tab** — navigate to any coding resource, fill in tags and read status, then click **Save Tab**
+2. **Tag it** — type comma-separated tags (e.g. `JavaScript, CSS`) in the Tags field before saving
+3. **Mark read** — select Yes or No in the Read field before saving; toggle it later directly on the card
+4. **Show list** — click **Show All** to reveal saved resources; click **Hide All** to collapse
+5. **Filter by tag** — click any tag chip to show only resources with that tag; click again to clear
+6. **Search** — type in the search bar to filter by title or URL in real time
+7. **Delete one** — click the **-** button on any card to remove that resource
+8. **Delete all** — double-click the **Delete All** button to clear everything
 
 ---
 
@@ -114,7 +119,6 @@ chrome extension/
 - [ ] Drag-to-reorder list
 - [ ] Keyboard shortcuts for saving the current tab
 - [ ] Notes field per resource
-- [ ] Check if already saved
 - [ ] group pages in the same website
 
 ---

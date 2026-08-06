@@ -6,6 +6,7 @@ let myResources = {
     read: false,
     savedAt: Date.now()
 }
+const searchEl = document.getElementById("searchBar")
 const tagEl = document.getElementById("tag-input-el")
 const chipsEl = document.getElementById("chips-el")
 const ulEl = document.getElementById("ul-el")
@@ -24,6 +25,10 @@ async function loadResources() {
 // loads existing array, appends new item, saves back
 async function saveResource(resource) {
     const resources = await loadResources()
+    if (resources.some(r => r.url === resource.url)) {
+        alert("Resource already exists: " + resource.url)
+        return
+    }   
     resources.push(resource)
     await chrome.storage.sync.set({ "myResources": JSON.stringify(resources) })
 }
@@ -52,6 +57,10 @@ saveBtn.addEventListener("click", function(){
 })
  
 function render(resources) {
+    if (!resources.length) {
+        ulEl.innerHTML = `<li class="empty-state">No resources found</li>`
+        return
+    }
     let listHeader = `
             <li class="resource-item">            
                 <a >Linked Title</a>
@@ -65,10 +74,10 @@ function render(resources) {
         listItems += `
             <li class="resource-item">            
                 <a target='_blank' href='${resource.url}'>
-                    ${resource.title}
+                    ${resource.title.trim().length > 30 ? resource.title.trim().substring(0, 30) + "..." : resource.title.trim()}
                 </a>
                 <p>${resource.tags.join(", ")}</p>                
-                <p>${resource.read ? "Yes" : "No"}</p>                
+                <p><input type="checkbox" class="read-toggle" data-id="${resource.id}" ${resource.read ? "checked" : ""} > ${resource.read ? "Yes" : "No"}</p>
                 <p>${new Date(resource.savedAt).toLocaleString()}</p>
                 <button class="delete-btn" data-id="${resource.id}">-</button>
             </li>
@@ -118,6 +127,18 @@ ulEl.addEventListener("click", async (event) => {
         render(resources)
     }
 })
+ulEl.addEventListener("change", async (event) => {
+    if (event.target.classList.contains("read-toggle")) {
+        const id = event.target.dataset.id
+        const resources = await loadResources()
+        const resource = resources.find(r => r.id === id)
+        if (resource) {
+            resource.read = event.target.checked
+            await chrome.storage.sync.set({ "myResources": JSON.stringify(resources) })
+            render(resources)
+        }
+    }
+})
 
 
 function renderTagFilters(resources) {
@@ -132,26 +153,38 @@ function renderTagFilters(resources) {
 
     chipsEl.innerHTML = tagChips
 
-    let activeTag = null
+    window.activeTag = null
 
     chipsEl.addEventListener("click", async (event) => {
         if (event.target.classList.contains("tag-chip")) {
             const clickedTag = event.target.dataset.tag
-            if (activeTag === clickedTag) {
-                activeTag = null
+            if (window.activeTag === clickedTag) {
+                window.activeTag = null
             } else {
-                activeTag = clickedTag
+                window.activeTag = clickedTag
             }
 
             const resources = await loadResources()
-            const filteredResources = activeTag ? resources.filter(resource => resource.tags.includes(activeTag)) : resources
+            const filteredResources = window.activeTag ? resources.filter(resource => resource.tags.includes(window.activeTag)) : resources
             render(filteredResources)
             isShowing = true
             showResourcesBtn.textContent = "HIDE ALL"
             document.querySelectorAll(".tag-chip").forEach(chip => {
-                chip.classList.toggle("active", chip.dataset.tag === activeTag)
+                chip.classList.toggle("active", chip.dataset.tag === window.activeTag)
             })
         }
     })
 }
+
+
+searchEl.addEventListener("input", async function(){
+    const searchTerm = searchEl.value.toLowerCase()
+    const resources = await loadResources()
+    const filteredResources = resources.filter(resource => {
+        const matchesSearch = resource.title.toLowerCase().includes(searchTerm) || resource.url.toLowerCase().includes(searchTerm)
+        const matchesTag = !window.activeTag || resource.tags.includes(window.activeTag)
+        return matchesSearch && matchesTag
+    })
+    render(filteredResources)
+})
 
